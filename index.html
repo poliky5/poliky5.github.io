@@ -1321,7 +1321,7 @@
   <div class="deco-row">
     <span class="spin">⭐</span>
     <span>🎂</span>
-    <span class="bounce">🫧</span>
+    <span class="bounce" onclick="showMessage()">🫧</span>
     <span>🎂</span>
     <span class="spin-rev">⭐</span>
   </div>
@@ -1383,6 +1383,10 @@
 </div>
 
 <script>
+  function showMessage() {
+  alert("caine is listening...");
+}
+
   function toggleBubble(card) {
     const allCards = document.querySelectorAll('.char-card');
     const isOpen = card.classList.contains('talking');
