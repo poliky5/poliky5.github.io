@@ -363,6 +363,94 @@
     50% { opacity: 0; }
   }
 
+  /* ===================== */
+  /*  SPEECH BUBBLES       */
+  /* ===================== */
+  .char-card {
+    position: relative;
+  }
+
+  .speech-bubble {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 2px solid var(--text);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6.5px;
+    color: var(--text);
+    line-height: 1.8;
+    width: 130px;
+    text-align: center;
+    z-index: 100;
+    white-space: normal;
+    box-shadow: 3px 3px 0 var(--text);
+    pointer-events: none;
+    animation: popIn 0.15s ease-out;
+  }
+
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top-color: var(--text);
+  }
+
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    top: calc(100% - 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top-color: white;
+    z-index: 1;
+  }
+
+  .char-card.talking .speech-bubble { display: block; }
+
+  @keyframes popIn {
+    from { transform: translateX(-50%) scale(0.7); opacity: 0; }
+    to   { transform: translateX(-50%) scale(1);   opacity: 1; }
+  }
+
+  /* per-character bubble accent colours */
+  .bubble-sans    { border-color: #5bbcd8; box-shadow: 3px 3px 0 #5bbcd8; }
+  .bubble-sans::after    { border-top-color: #5bbcd8; }
+  .bubble-flowey  { border-color: #ffd700; box-shadow: 3px 3px 0 #ffd700; }
+  .bubble-flowey::after  { border-top-color: #ffd700; }
+  .bubble-v1      { border-color: #2a5a8c; box-shadow: 3px 3px 0 #2a5a8c; }
+  .bubble-v1::after      { border-top-color: #2a5a8c; }
+  .bubble-minos   { border-color: #e8c840; box-shadow: 3px 3px 0 #e8c840; }
+  .bubble-minos::after   { border-top-color: #e8c840; }
+  .bubble-player  { border-color: #cc2020; box-shadow: 3px 3px 0 #cc2020; }
+  .bubble-player::after  { border-top-color: #cc2020; }
+  .bubble-king    { border-color: #6a0dad; box-shadow: 3px 3px 0 #6a0dad; }
+  .bubble-king::after    { border-top-color: #6a0dad; }
+  .bubble-terry   { border-color: #2255aa; box-shadow: 3px 3px 0 #2255aa; }
+  .bubble-terry::after   { border-top-color: #2255aa; }
+  .bubble-pomni   { border-color: #cc3344; box-shadow: 3px 3px 0 #cc3344; }
+  .bubble-pomni::after   { border-top-color: #cc3344; }
+  .bubble-jax     { border-color: #7a40cc; box-shadow: 3px 3px 0 #7a40cc; }
+  .bubble-jax::after     { border-top-color: #7a40cc; }
+  .bubble-ragatha { border-color: #e07080; box-shadow: 3px 3px 0 #e07080; }
+  .bubble-ragatha::after { border-top-color: #e07080; }
+  .bubble-kinger  { border-color: #c8a020; box-shadow: 3px 3px 0 #c8a020; }
+  .bubble-kinger::after  { border-top-color: #c8a020; }
+  .bubble-gangle  { border-color: #cc4444; box-shadow: 3px 3px 0 #cc4444; }
+  .bubble-gangle::after  { border-top-color: #cc4444; }
+  .bubble-zooble  { border-color: #508040; box-shadow: 3px 3px 0 #508040; }
+  .bubble-zooble::after  { border-top-color: #508040; }
+  .bubble-caine   { border-color: #cc1100; box-shadow: 3px 3px 0 #cc1100; }
+  .bubble-caine::after   { border-top-color: #cc1100; }
+
   /* scanlines overlay in modal */
   .modal-box::after {
     content: '';
@@ -393,8 +481,9 @@
   <!-- CHARACTER STRIP -->
   <div class="characters">
 
-    <!-- SANS (Undertale) — blue hoodie, white skull face, big grin, slippers -->
-    <div class="char-card">
+    <!-- SANS -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-sans">heh. happy birthday, eric. don't do anything i wouldn't do. ...actually, do nothing. i'll be on the couch.</div>
       <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
         <!-- hoodie body -->
         <rect x="3" y="13" width="14" height="8" fill="#5bbcd8"/>
@@ -442,8 +531,9 @@
       <span class="char-name">SANS</span>
     </div>
 
-    <!-- FLOWEY (Undertale) — yellow petals, green stem, creepy leaf face -->
-    <div class="char-card">
+    <!-- FLOWEY -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-flowey">Howdy! It's your birthday! Isn't that just WONDERFUL? heh heh heh... now you owe me a SOUL. 🌻</div>
       <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
         <!-- stem -->
         <rect x="9" y="14" width="2" height="10" fill="#4a8c30"/>
@@ -490,8 +580,9 @@
       <span class="char-name">FLOWEY</span>
     </div>
 
-    <!-- V1 (ULTRAKILL) — deep blue robot, camera head with yellow lens, 8 yellow wing stubs -->
-    <div class="char-card">
+    <!-- V1 -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-v1">MANKIND IS DEAD. BLOOD IS FUEL. HELL IS FULL. also happy birthday. [STYLISH KILL +500]</div>
       <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
         <!-- wings (8 protrusions from back, 4 each side) -->
         <rect x="0" y="8"  width="4" height="2" fill="#e8c840"/>
@@ -552,59 +643,9 @@
       <span class="char-name">V1</span>
     </div>
 
-    <!-- MINOS PRIME (ULTRAKILL) — massive glowing golden soul, robes, arms outstretched -->
-    <div class="char-card">
-      <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
-        <!-- ROBE body — white/cream, very wide & imposing -->
-        <rect x="2" y="10" width="16" height="13" fill="#f0ece0"/>
-        <!-- robe side folds -->
-        <rect x="2" y="10" width="2" height="13" fill="#d8d4c8"/>
-        <rect x="16" y="10" width="2" height="13" fill="#d8d4c8"/>
-        <!-- robe center vertical line -->
-        <rect x="9" y="11" width="2" height="10" fill="#d8d4c8"/>
-        <!-- golden belt/sash -->
-        <rect x="2" y="16" width="16" height="2" fill="#e8c840"/>
-        <!-- robe bottom hem gold trim -->
-        <rect x="2" y="21" width="16" height="1" fill="#e8c840"/>
-        <!-- ARMS — outstretched wide -->
-        <rect x="0" y="10" width="3" height="3" fill="#ffe8c8"/>
-        <rect x="17" y="10" width="3" height="3" fill="#ffe8c8"/>
-        <!-- fists -->
-        <rect x="0" y="12" width="2" height="3" fill="#ffe0b8"/>
-        <rect x="18" y="12" width="2" height="3" fill="#ffe0b8"/>
-        <!-- NECK -->
-        <rect x="8" y="8" width="4" height="3" fill="#ffe8c8"/>
-        <!-- HEAD — large, bearded, imposing -->
-        <rect x="4" y="1" width="12" height="10" fill="#ffe8c8"/>
-        <!-- long flowing beard (dark brown) -->
-        <rect x="4" y="6" width="12" height="5" fill="#6a5030"/>
-        <rect x="3" y="8" width="14" height="3" fill="#6a5030"/>
-        <!-- hair on top -->
-        <rect x="4" y="1" width="12" height="3" fill="#6a5030"/>
-        <!-- forehead skin -->
-        <rect x="5" y="3" width="10" height="4" fill="#ffe8c8"/>
-        <!-- EYES — glowing golden (prime soul energy) -->
-        <rect x="6" y="4" width="3" height="3" fill="#e8c840"/>
-        <rect x="11" y="4" width="3" height="3" fill="#e8c840"/>
-        <!-- eye bright centers -->
-        <rect x="7" y="5" width="1" height="1" fill="#fff8d0"/>
-        <rect x="12" y="5" width="1" height="1" fill="#fff8d0"/>
-        <!-- nose bridge -->
-        <rect x="9" y="6" width="2" height="2" fill="#e8c8a0"/>
-        <!-- crown/halo glow above head -->
-        <rect x="6" y="0" width="8" height="1" fill="#e8c840"/>
-        <rect x="5" y="0" width="1" height="2" fill="#e8c840"/>
-        <rect x="14" y="0" width="1" height="2" fill="#e8c840"/>
-        <!-- soul glow on chest (circle of light) -->
-        <rect x="8" y="11" width="4" height="4" fill="#fff4c0"/>
-        <rect x="7" y="12" width="6" height="2" fill="#fff4c0"/>
-        <rect x="9" y="11" width="2" height="4" fill="#ffffff"/>
-      </svg>
-      <span class="char-name">MINOS</span>
-    </div>
-
-    <!-- CRUEL KING (Block Tales) — white head, dark arms, cocoa torso, grey legs, red cape, royal crown, sinister blue eyes -->
-    <div class="char-card">
+    <!-- CRUEL KING -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-king">These tormenting visions... of birthday cake... They will not break me. I suppose... happy birthday, Eric. Don't push your luck.</div>
       <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
         <!-- LEGS — grey -->
         <rect x="4" y="17" width="5" height="7" fill="#888888"/>
@@ -680,6 +721,600 @@
       <span class="char-name">CRUEL KING</span>
     </div>
 
+    <!-- TUTORIAL TERRY (Block Tales) — dark blue oval penguin, orange beak, thick black eyebrows, wizard hat -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-terry">Happy birthday. Don't make a big deal out of it. ...Why are you STILL standing there?! GO AWAY!!! 🐧</div>
+      <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
+        <!-- WIZARD HAT (stolen from Kitchen Wizard) — tall pointy hat -->
+        <rect x="7" y="0" width="6" height="1" fill="#4a2880"/>
+        <rect x="6" y="1" width="8" height="1" fill="#4a2880"/>
+        <rect x="6" y="2" width="8" height="2" fill="#5a30a0"/>
+        <rect x="5" y="4" width="10" height="2" fill="#5a30a0"/>
+        <!-- hat brim -->
+        <rect x="3" y="6" width="14" height="2" fill="#6a38b0"/>
+        <!-- hat stars -->
+        <rect x="8" y="2" width="1" height="1" fill="#ffe060"/>
+        <rect x="11" y="3" width="1" height="1" fill="#ffe060"/>
+        <rect x="7" y="4" width="1" height="1" fill="#ffe060"/>
+        <!-- HEAD — dark blue oval penguin body (egg shape, wide) -->
+        <rect x="3" y="8" width="14" height="14" fill="#2244aa"/>
+        <!-- oval sides (round the egg shape) -->
+        <rect x="2" y="10" width="2" height="10" fill="#2244aa"/>
+        <rect x="16" y="10" width="2" height="10" fill="#2244aa"/>
+        <rect x="2" y="9" width="16" height="1" fill="#2244aa"/>
+        <rect x="2" y="20" width="16" height="1" fill="#2244aa"/>
+        <!-- darker navy shading -->
+        <rect x="3" y="8" width="2" height="14" fill="#1a3080"/>
+        <rect x="15" y="8" width="2" height="14" fill="#1a3080"/>
+        <!-- WHITE BELLY — big oval front -->
+        <rect x="6" y="11" width="8" height="9" fill="#e8e8f0"/>
+        <rect x="5" y="12" width="10" height="7" fill="#e8e8f0"/>
+        <!-- EYES — big white circles with black pupils -->
+        <rect x="5" y="9" width="4" height="4" fill="#ffffff"/>
+        <rect x="11" y="9" width="4" height="4" fill="#ffffff"/>
+        <rect x="6" y="10" width="3" height="3" fill="#1a1a1a"/>
+        <rect x="12" y="10" width="3" height="3" fill="#1a1a1a"/>
+        <!-- pupils shine -->
+        <rect x="6" y="10" width="1" height="1" fill="#555"/>
+        <rect x="12" y="10" width="1" height="1" fill="#555"/>
+        <!-- THICK ANGRY EYEBROWS -->
+        <rect x="4" y="8" width="6" height="2" fill="#1a1a1a"/>
+        <rect x="10" y="8" width="6" height="2" fill="#1a1a1a"/>
+        <!-- brow angle (inner edge down) -->
+        <rect x="8" y="9" width="2" height="1" fill="#1a1a1a"/>
+        <rect x="10" y="9" width="2" height="1" fill="#1a1a1a"/>
+        <!-- ORANGE BEAK -->
+        <rect x="8" y="13" width="4" height="2" fill="#e07820"/>
+        <rect x="7" y="14" width="6" height="2" fill="#e07820"/>
+        <rect x="8" y="15" width="4" height="1" fill="#c06010"/>
+        <!-- FLIPPERS — small, orange -->
+        <rect x="0" y="12" width="3" height="5" fill="#1a3080"/>
+        <rect x="17" y="12" width="3" height="5" fill="#1a3080"/>
+        <!-- orange flipper tips -->
+        <rect x="0" y="16" width="3" height="2" fill="#e07820"/>
+        <rect x="17" y="16" width="3" height="2" fill="#e07820"/>
+        <!-- FEET — orange -->
+        <rect x="5" y="21" width="4" height="3" fill="#e07820"/>
+        <rect x="11" y="21" width="4" height="3" fill="#e07820"/>
+        <rect x="4" y="22" width="5" height="2" fill="#c06010"/>
+        <rect x="11" y="22" width="5" height="2" fill="#c06010"/>
+      </svg>
+      <span class="char-name">TERRY</span>
+    </div>
+
+    <!-- POMNI (TADC) — 4-pronged jester hat (red+blue prongs, yellow bells), red/blue vertical stripe suit, yellow collar points & cuffs, blue legs, red gloves, black straight hair -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-pomni">I-I'm not really sure I'm okay right now but... happy birthday Eric!! This is fine. Everything is fine. 😅</div>
+      <svg class="char-sprite" viewBox="0 0 22 28" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:71px;">
+        <!-- JESTER HAT — 4 prongs alternating red/blue, yellow bells at tips -->
+        <!-- far-left prong: red -->
+        <rect x="2" y="0" width="3" height="6" fill="#cc1122"/>
+        <rect x="2" y="5" width="3" height="3" fill="#e8c020"/><!-- bell -->
+        <rect x="3" y="7" width="2" height="1" fill="#b89010"/>
+        <!-- mid-left prong: blue -->
+        <rect x="6" y="0" width="3" height="5" fill="#2244cc"/>
+        <rect x="6" y="4" width="3" height="3" fill="#e8c020"/>
+        <rect x="7" y="6" width="2" height="1" fill="#b89010"/>
+        <!-- mid-right prong: red -->
+        <rect x="13" y="0" width="3" height="5" fill="#cc1122"/>
+        <rect x="13" y="4" width="3" height="3" fill="#e8c020"/>
+        <rect x="14" y="6" width="2" height="1" fill="#b89010"/>
+        <!-- far-right prong: blue -->
+        <rect x="17" y="0" width="3" height="6" fill="#2244cc"/>
+        <rect x="17" y="5" width="3" height="3" fill="#e8c020"/>
+        <rect x="18" y="7" width="2" height="1" fill="#b89010"/>
+        <!-- hat brim band: half red half blue -->
+        <rect x="3" y="6" width="8" height="3" fill="#cc1122"/>
+        <rect x="11" y="6" width="8" height="3" fill="#2244cc"/>
+        <!-- BLACK HAIR — straight, falls on sides of head -->
+        <rect x="2" y="8" width="3" height="10" fill="#1a1a1a"/>
+        <rect x="17" y="8" width="3" height="10" fill="#1a1a1a"/>
+        <!-- HEAD — round, pale/white skin -->
+        <rect x="4" y="8" width="14" height="10" fill="#f5e8d8"/>
+        <rect x="3" y="9" width="16" height="8" fill="#f5e8d8"/>
+        <!-- BIG SCARED EYES — huge white circles, red irises (ref shows red/pink irises) -->
+        <rect x="4" y="10" width="6" height="5" fill="#ffffff"/>
+        <rect x="12" y="10" width="6" height="5" fill="#ffffff"/>
+        <!-- red irises -->
+        <rect x="5" y="11" width="4" height="3" fill="#cc2020"/>
+        <rect x="13" y="11" width="4" height="3" fill="#cc2020"/>
+        <!-- dark pupils (tiny) -->
+        <rect x="6" y="12" width="2" height="1" fill="#1a1a1a"/>
+        <rect x="14" y="12" width="2" height="1" fill="#1a1a1a"/>
+        <!-- eye shine -->
+        <rect x="5" y="11" width="1" height="1" fill="#ffffff"/>
+        <rect x="13" y="11" width="1" height="1" fill="#ffffff"/>
+        <!-- eye black outline -->
+        <rect x="4" y="10" width="6" height="1" fill="#1a1a1a"/>
+        <rect x="12" y="10" width="6" height="1" fill="#1a1a1a"/>
+        <rect x="4" y="14" width="6" height="1" fill="#1a1a1a"/>
+        <rect x="12" y="14" width="6" height="1" fill="#1a1a1a"/>
+        <rect x="4" y="10" width="1" height="5" fill="#1a1a1a"/>
+        <rect x="9" y="10" width="1" height="5" fill="#1a1a1a"/>
+        <rect x="12" y="10" width="1" height="5" fill="#1a1a1a"/>
+        <rect x="17" y="10" width="1" height="5" fill="#1a1a1a"/>
+        <!-- small worried mouth -->
+        <rect x="9" y="16" width="4" height="1" fill="#c08060"/>
+        <!-- YELLOW COLLAR POINTS — triangular points around neck -->
+        <rect x="4" y="18" width="3" height="3" fill="#e8c020"/>
+        <rect x="8" y="17" width="3" height="4" fill="#e8c020"/>
+        <rect x="12" y="17" width="3" height="4" fill="#e8c020"/>
+        <rect x="16" y="18" width="3" height="3" fill="#e8c020"/>
+        <!-- BODY — vertical red/blue stripes (alternating columns) -->
+        <rect x="5" y="19" width="3" height="7" fill="#cc1122"/>
+        <rect x="8" y="19" width="3" height="7" fill="#2244cc"/>
+        <rect x="11" y="19" width="3" height="7" fill="#cc1122"/>
+        <rect x="14" y="19" width="3" height="7" fill="#2244cc"/>
+        <!-- YELLOW BUTTONS on suit (3 big round buttons) -->
+        <rect x="9" y="20" width="2" height="2" fill="#e8c020"/>
+        <rect x="9" y="23" width="2" height="2" fill="#e8c020"/>
+        <!-- ARMS — striped sleeves -->
+        <rect x="0" y="19" width="5" height="4" fill="#cc1122"/>
+        <rect x="17" y="19" width="5" height="4" fill="#2244cc"/>
+        <!-- YELLOW CUFFS -->
+        <rect x="0" y="22" width="5" height="2" fill="#e8c020"/>
+        <rect x="17" y="22" width="5" height="2" fill="#e8c020"/>
+        <!-- RED GLOVES (big puffy) -->
+        <rect x="0" y="23" width="5" height="4" fill="#cc1122"/>
+        <rect x="17" y="23" width="5" height="4" fill="#cc1122"/>
+        <!-- BLUE LEGS -->
+        <rect x="6" y="25" width="4" height="3" fill="#2244cc"/>
+        <rect x="12" y="25" width="4" height="3" fill="#2244cc"/>
+        <!-- YELLOW BOOT CUFFS -->
+        <rect x="5" y="25" width="5" height="1" fill="#e8c020"/>
+        <rect x="12" y="25" width="5" height="1" fill="#e8c020"/>
+        <!-- dark blue shoes/boots -->
+        <rect x="5" y="26" width="6" height="2" fill="#1122aa"/>
+        <rect x="11" y="26" width="6" height="2" fill="#1122aa"/>
+      </svg>
+      <span class="char-name">POMNI</span>
+    </div>
+
+    <!-- JAX (TADC) — purple bunny, red suspenders, long ears, smug grin -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-jax">lol happy birthday. don't read too much into this. I literally don't care. ...okay maybe a little. don't tell anyone.</div>
+      <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
+        <!-- LONG BUNNY EARS — tall, purple with pink inside -->
+        <rect x="5" y="0" width="4" height="9" fill="#7a40cc"/>
+        <rect x="11" y="0" width="4" height="9" fill="#7a40cc"/>
+        <!-- ear pink inner -->
+        <rect x="6" y="1" width="2" height="7" fill="#e080c0"/>
+        <rect x="12" y="1" width="2" height="7" fill="#e080c0"/>
+        <!-- ear tips -->
+        <rect x="5" y="0" width="4" height="1" fill="#6030bb"/>
+        <rect x="11" y="0" width="4" height="1" fill="#6030bb"/>
+        <!-- HEAD — purple, round -->
+        <rect x="3" y="7" width="14" height="10" fill="#7a40cc"/>
+        <rect x="2" y="8" width="16" height="8" fill="#7a40cc"/>
+        <!-- face — slightly lighter -->
+        <rect x="4" y="8" width="12" height="8" fill="#8a50dc"/>
+        <!-- EYES — yellow, half-lidded smug -->
+        <rect x="5" y="10" width="4" height="3" fill="#f0d020"/>
+        <rect x="11" y="10" width="4" height="3" fill="#f0d020"/>
+        <!-- pupils — oval, lazy/smug -->
+        <rect x="6" y="10" width="2" height="3" fill="#1a1a1a"/>
+        <rect x="12" y="10" width="2" height="3" fill="#1a1a1a"/>
+        <!-- half-lid top -->
+        <rect x="5" y="10" width="4" height="1" fill="#6030bb"/>
+        <rect x="11" y="10" width="4" height="1" fill="#6030bb"/>
+        <!-- smug wide grin -->
+        <rect x="6" y="14" width="8" height="1" fill="#1a1a1a"/>
+        <rect x="5" y="13" width="2" height="1" fill="#1a1a1a"/>
+        <rect x="13" y="13" width="2" height="1" fill="#1a1a1a"/>
+        <!-- teeth in grin -->
+        <rect x="7" y="14" width="2" height="1" fill="#f0f0f0"/>
+        <rect x="11" y="14" width="2" height="1" fill="#f0f0f0"/>
+        <!-- BODY — purple shirt -->
+        <rect x="4" y="17" width="12" height="7" fill="#7a40cc"/>
+        <!-- RED SUSPENDERS -->
+        <rect x="7" y="17" width="2" height="7" fill="#cc2020"/>
+        <rect x="11" y="17" width="2" height="7" fill="#cc2020"/>
+        <!-- suspender cross bar -->
+        <rect x="7" y="19" width="6" height="1" fill="#cc2020"/>
+        <!-- ARMS — purple -->
+        <rect x="0" y="17" width="5" height="5" fill="#7a40cc"/>
+        <rect x="15" y="17" width="5" height="5" fill="#7a40cc"/>
+        <!-- hands -->
+        <rect x="0" y="21" width="4" height="3" fill="#8a50dc"/>
+        <rect x="16" y="21" width="4" height="3" fill="#8a50dc"/>
+        <!-- RED TROUSERS -->
+        <rect x="5" y="21" width="4" height="3" fill="#cc2020"/>
+        <rect x="11" y="21" width="4" height="3" fill="#cc2020"/>
+        <!-- NECK -->
+        <rect x="8" y="16" width="4" height="2" fill="#8a50dc"/>
+      </svg>
+      <span class="char-name">JAX</span>
+    </div>
+
+    <!-- RAGATHA (TADC) — blue patchwork dress, white collar & cuffs, red yarn hair, blue bow, one blue button eye + one X-stitch eye, tan skin rag doll limbs, dark brown shoes -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-ragatha">Happy birthday, Eric!! You deserve all the good things today! ...and every day! You're doing great! 🌸</div>
+      <svg class="char-sprite" viewBox="0 0 22 28" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:71px;">
+        <!-- RED YARN HAIR — spiky/looping strands across top -->
+        <rect x="4" y="1" width="14" height="2" fill="#cc2211"/>
+        <rect x="3" y="2" width="3" height="5" fill="#cc2211"/><!-- left side strands -->
+        <rect x="16" y="2" width="3" height="5" fill="#cc2211"/><!-- right side strands -->
+        <rect x="5" y="0" width="2" height="4" fill="#dd3322"/>
+        <rect x="8" y="0" width="2" height="3" fill="#dd3322"/>
+        <rect x="11" y="0" width="2" height="3" fill="#dd3322"/>
+        <rect x="14" y="0" width="2" height="4" fill="#dd3322"/>
+        <!-- BLUE BOW on top-right of hair -->
+        <rect x="14" y="0" width="5" height="3" fill="#4466cc"/>
+        <rect x="14" y="0" width="2" height="3" fill="#3355bb"/>
+        <rect x="17" y="0" width="2" height="3" fill="#3355bb"/>
+        <rect x="16" y="1" width="2" height="1" fill="#6688ee"/><!-- bow centre -->
+        <!-- HEAD — round, tan/peach rag doll skin -->
+        <rect x="4" y="4" width="14" height="10" fill="#e8c8a0"/>
+        <rect x="3" y="5" width="16" height="8" fill="#e8c8a0"/>
+        <!-- LEFT EYE — blue button (round, blue with cross holes) -->
+        <rect x="5" y="7" width="5" height="5" fill="#4466cc"/>
+        <rect x="4" y="8" width="7" height="3" fill="#4466cc"/>
+        <!-- button cross/holes -->
+        <rect x="7" y="7" width="1" height="5" fill="#2244aa"/>
+        <rect x="5" y="9" width="5" height="1" fill="#2244aa"/>
+        <!-- button shine -->
+        <rect x="5" y="7" width="1" height="1" fill="#88aaee"/>
+        <!-- RIGHT EYE — X stitch (sewn closed with thread) -->
+        <rect x="12" y="7" width="5" height="5" fill="#e8c8a0"/><!-- same skin, stitched -->
+        <!-- X stitching in red thread -->
+        <rect x="12" y="7" width="1" height="1" fill="#cc2222"/>
+        <rect x="13" y="8" width="1" height="1" fill="#cc2222"/>
+        <rect x="14" y="9" width="1" height="1" fill="#cc2222"/>
+        <rect x="15" y="10" width="1" height="1" fill="#cc2222"/>
+        <rect x="16" y="11" width="1" height="1" fill="#cc2222"/>
+        <rect x="16" y="7" width="1" height="1" fill="#cc2222"/>
+        <rect x="15" y="8" width="1" height="1" fill="#cc2222"/>
+        <rect x="13" y="10" width="1" height="1" fill="#cc2222"/>
+        <rect x="12" y="11" width="1" height="1" fill="#cc2222"/>
+        <!-- stitched smile (sewn on) -->
+        <rect x="8" y="13" width="6" height="1" fill="#cc6644"/>
+        <rect x="7" y="12" width="1" height="1" fill="#cc6644"/>
+        <rect x="14" y="12" width="1" height="1" fill="#cc6644"/>
+        <!-- blush dots -->
+        <rect x="4" y="12" width="2" height="1" fill="#f0a880"/>
+        <rect x="16" y="12" width="2" height="1" fill="#f0a880"/>
+        <!-- WHITE COLLAR — wide flat collar around neck -->
+        <rect x="4" y="14" width="14" height="3" fill="#f8f8f8"/>
+        <rect x="3" y="15" width="16" height="2" fill="#f8f8f8"/>
+        <!-- collar outline -->
+        <rect x="3" y="14" width="16" height="1" fill="#ddd"/>
+        <rect x="3" y="16" width="16" height="1" fill="#ddd"/>
+        <!-- BLUE PATCHWORK DRESS BODICE -->
+        <rect x="5" y="16" width="12" height="6" fill="#4466bb"/>
+        <!-- patch squares on bodice (different blues) -->
+        <rect x="5" y="16" width="5" height="3" fill="#3355aa"/>
+        <rect x="12" y="17" width="5" height="3" fill="#5577cc"/>
+        <rect x="7" y="19" width="4" height="3" fill="#6688dd"/>
+        <!-- patch stitch lines -->
+        <rect x="10" y="16" width="1" height="6" fill="#2244aa"/>
+        <rect x="5" y="19" width="12" height="1" fill="#2244aa"/>
+        <!-- DRESS SKIRT — wide, patchwork blue -->
+        <rect x="2" y="22" width="18" height="5" fill="#4466bb"/>
+        <!-- skirt patches -->
+        <rect x="2" y="22" width="6" height="5" fill="#3355aa"/>
+        <rect x="8" y="22" width="5" height="5" fill="#5577cc"/>
+        <rect x="13" y="22" width="7" height="5" fill="#3355aa"/>
+        <rect x="4" y="23" width="4" height="4" fill="#6688dd"/>
+        <rect x="14" y="24" width="4" height="3" fill="#6688dd"/>
+        <!-- skirt stitch lines -->
+        <rect x="8" y="22" width="1" height="5" fill="#2244aa"/>
+        <rect x="13" y="22" width="1" height="5" fill="#2244aa"/>
+        <rect x="2" y="25" width="18" height="1" fill="#2244aa"/>
+        <!-- RAG DOLL ARMS — tan, thin stuffed tubes -->
+        <rect x="0" y="16" width="5" height="3" fill="#e8c8a0"/>
+        <rect x="17" y="16" width="5" height="3" fill="#e8c8a0"/>
+        <!-- arms hang down -->
+        <rect x="1" y="19" width="3" height="5" fill="#e8c8a0"/>
+        <rect x="18" y="19" width="3" height="5" fill="#e8c8a0"/>
+        <!-- WHITE CUFFS -->
+        <rect x="0" y="23" width="5" height="2" fill="#f8f8f8"/>
+        <rect x="17" y="23" width="5" height="2" fill="#f8f8f8"/>
+        <!-- hands -->
+        <rect x="1" y="24" width="3" height="3" fill="#e8c8a0"/>
+        <rect x="18" y="24" width="3" height="3" fill="#e8c8a0"/>
+        <!-- DARK BROWN SHOES/LEGS -->
+        <rect x="6" y="27" width="4" height="1" fill="#3a1a0a"/>
+        <rect x="12" y="27" width="4" height="1" fill="#3a1a0a"/>
+      </svg>
+      <span class="char-name">RAGATHA</span>
+    </div>
+
+    <!-- KINGER (TADC) — tall narrow purple chess piece body, NO ARMS, white ermine robe open down middle, chess king head (tan), big googly eyes on stalks, white fluffy ermine base -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-kinger">OH! S-someone said birthday?! Is it— wait, did somebody say something about an insect collection?! Ah— happy birthday! Yes! I think!</div>
+      <svg class="char-sprite" viewBox="0 0 20 28" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:48px;height:68px;">
+        <!-- CHESS KING CROWN (cross on top of orb) -->
+        <rect x="9" y="0" width="2" height="4" fill="#c8a870"/><!-- vertical bar -->
+        <rect x="7" y="1" width="6" height="2" fill="#c8a870"/><!-- horizontal bar -->
+        <!-- orb below cross -->
+        <rect x="8" y="3" width="4" height="3" fill="#d4b880"/>
+        <!-- CHESS KING HEAD — tan/beige truncated cone shape -->
+        <rect x="6" y="5" width="8" height="7" fill="#d4b880"/>
+        <rect x="5" y="6" width="10" height="5" fill="#d4b880"/>
+        <!-- head shading -->
+        <rect x="5" y="6" width="1" height="5" fill="#b89860"/>
+        <rect x="14" y="6" width="1" height="5" fill="#b89860"/>
+        <!-- GOOGLY EYES on stalks — sticking out far -->
+        <!-- left eye stalk -->
+        <rect x="4" y="7" width="2" height="1" fill="#b89860"/>
+        <!-- left eye ball (big white sphere) -->
+        <rect x="1" y="5" width="5" height="5" fill="#ffffff"/>
+        <rect x="0" y="6" width="7" height="3" fill="#ffffff"/>
+        <!-- left iris (blue) -->
+        <rect x="2" y="7" width="3" height="2" fill="#3060c0"/>
+        <!-- left pupil -->
+        <rect x="3" y="7" width="1" height="1" fill="#080808"/>
+        <!-- left eye outline -->
+        <rect x="1" y="5" width="5" height="1" fill="#888"/>
+        <rect x="1" y="9" width="5" height="1" fill="#888"/>
+        <rect x="0" y="6" width="1" height="3" fill="#888"/>
+        <rect x="6" y="6" width="1" height="3" fill="#888"/>
+        <!-- right eye stalk -->
+        <rect x="14" y="7" width="2" height="1" fill="#b89860"/>
+        <!-- right eye ball -->
+        <rect x="14" y="5" width="5" height="5" fill="#ffffff"/>
+        <rect x="13" y="6" width="7" height="3" fill="#ffffff"/>
+        <!-- right iris -->
+        <rect x="15" y="7" width="3" height="2" fill="#3060c0"/>
+        <!-- right pupil -->
+        <rect x="16" y="7" width="1" height="1" fill="#080808"/>
+        <!-- right eye outline -->
+        <rect x="14" y="5" width="5" height="1" fill="#888"/>
+        <rect x="14" y="9" width="5" height="1" fill="#888"/>
+        <rect x="13" y="6" width="1" height="3" fill="#888"/>
+        <rect x="19" y="6" width="1" height="3" fill="#888"/>
+        <!-- mouth (small, nervous) -->
+        <rect x="8" y="11" width="4" height="1" fill="#a08060"/>
+        <!-- HEAD BASE — flared wider bottom of chess piece -->
+        <rect x="5" y="11" width="10" height="2" fill="#c0a468"/>
+        <rect x="4" y="12" width="12" height="2" fill="#b89860"/>
+        <!-- WHITE ERMINE COLLAR/LAPELS — open robe down the front -->
+        <rect x="4" y="13" width="3" height="8" fill="#f0ece4"/><!-- left lapel -->
+        <rect x="13" y="13" width="3" height="8" fill="#f0ece4"/><!-- right lapel -->
+        <!-- ermine spots on lapels -->
+        <rect x="5" y="15" width="1" height="1" fill="#8a7060"/>
+        <rect x="5" y="18" width="1" height="1" fill="#8a7060"/>
+        <rect x="14" y="14" width="1" height="1" fill="#8a7060"/>
+        <rect x="14" y="17" width="1" height="1" fill="#8a7060"/>
+        <!-- MAIN BODY — tall narrow deep purple chess piece shape -->
+        <rect x="7" y="13" width="6" height="11" fill="#7030a0"/>
+        <!-- body shading -->
+        <rect x="7" y="13" width="1" height="11" fill="#5a2080"/>
+        <rect x="12" y="13" width="1" height="11" fill="#5a2080"/>
+        <!-- body highlight stripe -->
+        <rect x="9" y="13" width="2" height="11" fill="#8840b8"/>
+        <!-- WHITE ERMINE BASE — fluffy bottom of the robe -->
+        <rect x="3" y="23" width="14" height="3" fill="#f0ece4"/>
+        <!-- ermine base spots -->
+        <rect x="4" y="24" width="1" height="1" fill="#8a7060"/>
+        <rect x="7" y="23" width="1" height="2" fill="#8a7060"/>
+        <rect x="10" y="24" width="1" height="1" fill="#8a7060"/>
+        <rect x="13" y="23" width="1" height="2" fill="#8a7060"/>
+        <rect x="16" y="24" width="1" height="1" fill="#8a7060"/>
+        <!-- ermine fluffy bottom curve -->
+        <rect x="2" y="25" width="16" height="2" fill="#e8e4dc"/>
+        <rect x="3" y="26" width="14" height="1" fill="#d8d4cc"/>
+      </svg>
+      <span class="char-name">KINGER</span>
+    </div>
+
+    <!-- GANGLE (TADC) — tragedy mask face, red ribbon body, fragile comedy mask on top -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-gangle">😢 oh... happy birthday Eric... *sniff* I tried to get you a comedy mask but Jax broke it... again...</div>
+      <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
+        <!-- COMEDY MASK on top (smaller, slightly broken) -->
+        <rect x="6" y="0" width="8" height="5" fill="#ffe880"/>
+        <rect x="5" y="1" width="10" height="4" fill="#ffe880"/>
+        <!-- comedy eyes — upturned happy -->
+        <rect x="7" y="2" width="2" height="1" fill="#1a1a1a"/>
+        <rect x="11" y="2" width="2" height="1" fill="#1a1a1a"/>
+        <!-- comedy smile up -->
+        <rect x="8" y="3" width="4" height="1" fill="#1a1a1a"/>
+        <rect x="7" y="3" width="1" height="1" fill="#1a1a1a"/>
+        <rect x="12" y="3" width="1" height="1" fill="#1a1a1a"/>
+        <!-- crack on comedy mask (broken) -->
+        <rect x="9" y="1" width="1" height="3" fill="#cc8800" style="opacity:0.6"/>
+        <!-- TRAGEDY MASK — main face, cream with down-turned expression -->
+        <rect x="3" y="5" width="14" height="10" fill="#f5f0e0"/>
+        <rect x="2" y="6" width="16" height="8" fill="#f5f0e0"/>
+        <!-- sad eyes — downward angled -->
+        <rect x="5" y="7" width="4" height="4" fill="#1a1a1a"/>
+        <rect x="11" y="7" width="4" height="4" fill="#1a1a1a"/>
+        <!-- tear drop under left eye -->
+        <rect x="6" y="11" width="1" height="2" fill="#80c0ff"/>
+        <rect x="7" y="12" width="1" height="1" fill="#80c0ff"/>
+        <!-- downturned frown -->
+        <rect x="7" y="13" width="6" height="1" fill="#1a1a1a"/>
+        <rect x="7" y="12" width="1" height="1" fill="#1a1a1a"/>
+        <rect x="12" y="12" width="1" height="1" fill="#1a1a1a"/>
+        <!-- inner eye sad whites -->
+        <rect x="6" y="8" width="2" height="2" fill="#ffffff"/>
+        <rect x="12" y="8" width="2" height="2" fill="#ffffff"/>
+        <!-- RIBBON BODY — swirls of red ribbon below mask -->
+        <rect x="8" y="15" width="4" height="2" fill="#cc2020"/>
+        <!-- ribbon loops and tangles -->
+        <rect x="4" y="16" width="12" height="2" fill="#cc2020"/>
+        <rect x="2" y="17" width="16" height="2" fill="#dd3030"/>
+        <rect x="3" y="18" width="5" height="2" fill="#cc2020"/>
+        <rect x="12" y="18" width="5" height="2" fill="#cc2020"/>
+        <rect x="1" y="19" width="4" height="2" fill="#dd3030"/>
+        <rect x="5" y="20" width="3" height="2" fill="#bb1010"/>
+        <rect x="12" y="19" width="6" height="2" fill="#dd3030"/>
+        <rect x="8" y="21" width="4" height="3" fill="#cc2020"/>
+        <rect x="4" y="21" width="4" height="2" fill="#dd3030"/>
+        <rect x="12" y="21" width="4" height="2" fill="#bb1010"/>
+        <!-- ribbon lighter highlights -->
+        <rect x="6" y="17" width="2" height="1" fill="#ff5050"/>
+        <rect x="12" y="18" width="2" height="1" fill="#ff5050"/>
+        <rect x="3" y="20" width="2" height="1" fill="#ff5050"/>
+      </svg>
+      <span class="char-name">GANGLE</span>
+    </div>
+
+    <!-- ZOOBLE (TADC) — pink bean torso, MAGENTA TRIANGLE head with one big eye + half-lidded, small yellow bird head on shoulder, pink wing, blue spiral leg, orange leg with blue claw, red squiggle right arm with ball end, yellow left arm/glove, antenna -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-zooble">ugh. fine. happy birthday. don't make it weird. i'm going back to my room now. there's a suggestion box if you care.</div>
+      <svg class="char-sprite" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:65px;">
+        <!-- ANTENNA on top of head — thin zigzag wire + ball -->
+        <rect x="13" y="0" width="1" height="1" fill="#888"/>
+        <rect x="12" y="1" width="1" height="1" fill="#888"/>
+        <rect x="13" y="2" width="1" height="1" fill="#888"/>
+        <rect x="12" y="3" width="2" height="2" fill="#cc6688"/><!-- antenna ball -->
+        <!-- MAGENTA TRIANGLE HEAD — wide base, pointed top -->
+        <rect x="8" y="3" width="10" height="2" fill="#cc3388"/>
+        <rect x="7" y="5" width="12" height="2" fill="#cc3388"/>
+        <rect x="6" y="7" width="14" height="3" fill="#cc3388"/>
+        <rect x="5" y="9" width="16" height="2" fill="#cc3388"/>
+        <!-- head shading -->
+        <rect x="5" y="9" width="2" height="2" fill="#aa2268"/>
+        <rect x="19" y="9" width="2" height="2" fill="#aa2268"/>
+        <!-- BIG SINGLE EYE (right side of triangle, half-lidded/grumpy) -->
+        <rect x="14" y="6" width="5" height="5" fill="#ffffff"/>
+        <rect x="13" y="7" width="7" height="4" fill="#ffffff"/>
+        <!-- iris — blue -->
+        <rect x="14" y="7" width="4" height="3" fill="#4488cc"/>
+        <!-- pupil -->
+        <rect x="15" y="8" width="2" height="2" fill="#1a1a1a"/>
+        <!-- eye shine -->
+        <rect x="14" y="7" width="1" height="1" fill="#ffffff"/>
+        <!-- half lid (droopy/grumpy top) -->
+        <rect x="13" y="7" width="7" height="2" fill="#bb2277"/>
+        <!-- eye outline -->
+        <rect x="13" y="6" width="7" height="1" fill="#1a1a1a"/>
+        <rect x="13" y="10" width="7" height="1" fill="#1a1a1a"/>
+        <rect x="13" y="6" width="1" height="5" fill="#1a1a1a"/>
+        <rect x="19" y="6" width="1" height="5" fill="#1a1a1a"/>
+        <!-- SMALL YELLOW BIRD HEAD on left shoulder -->
+        <rect x="3" y="8" width="5" height="4" fill="#e8c020"/>
+        <rect x="2" y="9" width="7" height="3" fill="#e8c020"/>
+        <!-- bird beak -->
+        <rect x="1" y="10" width="2" height="1" fill="#e07020"/>
+        <!-- bird eye (small, dark) -->
+        <rect x="5" y="9" width="2" height="2" fill="#1a1a1a"/>
+        <rect x="6" y="9" width="1" height="1" fill="#555"/><!-- shine -->
+        <!-- bird head crest -->
+        <rect x="4" y="7" width="1" height="2" fill="#e8c020"/>
+        <rect x="5" y="6" width="1" height="2" fill="#ddb010"/>
+        <!-- PINK BEAN / KIDNEY TORSO -->
+        <rect x="7" y="11" width="10" height="9" fill="#f0a0b0"/>
+        <rect x="6" y="12" width="12" height="7" fill="#f0a0b0"/>
+        <rect x="5" y="13" width="14" height="5" fill="#f0a0b0"/>
+        <!-- torso shading -->
+        <rect x="5" y="13" width="2" height="5" fill="#d88098"/>
+        <rect x="17" y="13" width="2" height="5" fill="#d88098"/>
+        <!-- BLUE CIRCLE on torso (connector socket) -->
+        <rect x="9" y="13" width="4" height="4" fill="#4488cc"/>
+        <rect x="8" y="14" width="6" height="2" fill="#4488cc"/>
+        <!-- SMALL PINK WING on right side of torso -->
+        <rect x="19" y="12" width="4" height="3" fill="#f080a8"/>
+        <rect x="20" y="11" width="3" height="2" fill="#f080a8"/>
+        <rect x="21" y="10" width="2" height="2" fill="#e06090"/>
+        <!-- YELLOW LEFT ARM (straight, gloved) -->
+        <rect x="0" y="13" width="6" height="2" fill="#e8c020"/>
+        <!-- yellow glove/hand -->
+        <rect x="0" y="14" width="4" height="3" fill="#e8c020"/>
+        <!-- fingers suggestion -->
+        <rect x="0" y="16" width="1" height="2" fill="#d8b010"/>
+        <rect x="2" y="16" width="1" height="2" fill="#d8b010"/>
+        <!-- RED SQUIGGLE RIGHT ARM — coil/spring shape -->
+        <rect x="19" y="15" width="2" height="2" fill="#cc2020"/>
+        <rect x="21" y="16" width="2" height="2" fill="#cc2020"/>
+        <rect x="19" y="18" width="2" height="2" fill="#cc2020"/>
+        <rect x="21" y="20" width="2" height="2" fill="#cc2020"/>
+        <!-- arm end ball -->
+        <rect x="20" y="21" width="3" height="3" fill="#cc2020"/>
+        <!-- BLUE SPIRAL LEFT LEG -->
+        <rect x="7" y="20" width="3" height="2" fill="#2266cc"/>
+        <rect x="6" y="22" width="3" height="2" fill="#2266cc"/>
+        <rect x="7" y="24" width="3" height="2" fill="#2266cc"/>
+        <rect x="6" y="26" width="4" height="2" fill="#1144aa"/><!-- foot -->
+        <!-- ORANGE COIL RIGHT LEG -->
+        <rect x="14" y="20" width="3" height="2" fill="#e07020"/>
+        <rect x="15" y="22" width="3" height="2" fill="#e07020"/>
+        <rect x="14" y="24" width="3" height="2" fill="#e07020"/>
+        <!-- BLUE CLAW FOOT on orange leg -->
+        <rect x="13" y="26" width="5" height="2" fill="#2266cc"/>
+        <rect x="12" y="27" width="2" height="1" fill="#2266cc"/>
+        <rect x="17" y="27" width="2" height="1" fill="#2266cc"/>
+      </svg>
+      <span class="char-name">ZOOBLE</span>
+    </div>
+
+    <!-- CAINE (TADC) — red tuxedo, teeth for a head (two rows), heterochromatic eyes inside mouth -->
+    <div class="char-card" onclick="toggleBubble(this)">
+      <div class="speech-bubble bubble-caine">WELCOME to Eric's BIRTHDAY EXTRAVAGANZA! It's going to be JAW-DROPPING! Isn't that right, Bubble? - That's right, Caine!</div>
+      <svg class="char-sprite" viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;width:56px;height:68px;">
+        <!-- RED TUXEDO BODY -->
+        <rect x="3" y="12" width="14" height="10" fill="#cc1100"/>
+        <!-- tuxedo shading -->
+        <rect x="3" y="12" width="2" height="10" fill="#aa0a00"/>
+        <rect x="15" y="12" width="2" height="10" fill="#aa0a00"/>
+        <!-- white shirt front -->
+        <rect x="8" y="13" width="4" height="8" fill="#f0f0f0"/>
+        <!-- bow tie -->
+        <rect x="7" y="13" width="2" height="2" fill="#1a1a1a"/>
+        <rect x="11" y="13" width="2" height="2" fill="#1a1a1a"/>
+        <rect x="9" y="14" width="2" height="1" fill="#1a1a1a"/>
+        <!-- tuxedo lapels -->
+        <rect x="5" y="12" width="4" height="4" fill="#cc1100"/>
+        <rect x="11" y="12" width="4" height="4" fill="#cc1100"/>
+        <!-- pocket square -->
+        <rect x="14" y="13" width="2" height="2" fill="#ffffff"/>
+        <!-- ARMS — red sleeves -->
+        <rect x="0" y="12" width="4" height="6" fill="#cc1100"/>
+        <rect x="16" y="12" width="4" height="6" fill="#cc1100"/>
+        <!-- white gloves -->
+        <rect x="0" y="17" width="4" height="4" fill="#f0f0f0"/>
+        <rect x="16" y="17" width="4" height="4" fill="#f0f0f0"/>
+        <!-- LEGS — black trousers -->
+        <rect x="5" y="21" width="4" height="3" fill="#1a1a1a"/>
+        <rect x="11" y="21" width="4" height="3" fill="#1a1a1a"/>
+        <!-- shoes -->
+        <rect x="4" y="22" width="5" height="2" fill="#0a0a0a"/>
+        <rect x="11" y="22" width="5" height="2" fill="#0a0a0a"/>
+        <!-- NECK STUB -->
+        <rect x="8" y="10" width="4" height="3" fill="#f0f0f0"/>
+        <!-- HEAD = GIANT TEETH/MOUTH -->
+        <!-- outer jaw (lower row of teeth) -->
+        <rect x="2" y="5" width="16" height="8" fill="#f0f0ec"/>
+        <rect x="1" y="6" width="18" height="6" fill="#f0f0ec"/>
+        <!-- gum line bottom -->
+        <rect x="2" y="10" width="16" height="2" fill="#ff8888"/>
+        <!-- gum line top -->
+        <rect x="2" y="5" width="16" height="2" fill="#ff8888"/>
+        <!-- upper teeth (chunky blocks) -->
+        <rect x="3" y="6" width="2" height="4" fill="#ffffff"/>
+        <rect x="6" y="6" width="2" height="4" fill="#ffffff"/>
+        <rect x="9" y="6" width="2" height="4" fill="#ffffff"/>
+        <rect x="12" y="6" width="2" height="4" fill="#ffffff"/>
+        <rect x="15" y="6" width="2" height="4" fill="#ffffff"/>
+        <!-- tooth gaps -->
+        <rect x="5" y="6" width="1" height="4" fill="#ff8888"/>
+        <rect x="8" y="6" width="1" height="4" fill="#ff8888"/>
+        <rect x="11" y="6" width="1" height="4" fill="#ff8888"/>
+        <rect x="14" y="6" width="1" height="4" fill="#ff8888"/>
+        <!-- lower teeth -->
+        <rect x="3" y="10" width="2" height="3" fill="#ffffff"/>
+        <rect x="6" y="10" width="2" height="3" fill="#ffffff"/>
+        <rect x="9" y="10" width="2" height="3" fill="#ffffff"/>
+        <rect x="12" y="10" width="2" height="3" fill="#ffffff"/>
+        <rect x="15" y="10" width="2" height="3" fill="#ffffff"/>
+        <!-- EYES inside mouth — heterochromatic (one blue, one yellow) -->
+        <rect x="5" y="7" width="3" height="3" fill="#3388ff"/>
+        <rect x="12" y="7" width="3" height="3" fill="#ffcc00"/>
+        <!-- pupils -->
+        <rect x="6" y="8" width="1" height="1" fill="#1a1a1a"/>
+        <rect x="13" y="8" width="1" height="1" fill="#1a1a1a"/>
+        <!-- top hat on top -->
+        <rect x="6" y="0" width="8" height="6" fill="#1a1a1a"/>
+        <rect x="4" y="4" width="12" height="2" fill="#1a1a1a"/>
+        <rect x="6" y="1" width="8" height="1" fill="#333"/>
+        <!-- hat band red -->
+        <rect x="6" y="4" width="8" height="1" fill="#cc1100"/>
+      </svg>
+      <span class="char-name">CAINE</span>
+    </div>
+
   </div>
 
   <!-- DECORATIVE ROW -->
@@ -752,6 +1387,20 @@
 </div>
 
 <script>
+  function toggleBubble(card) {
+    const allCards = document.querySelectorAll('.char-card');
+    const isOpen = card.classList.contains('talking');
+    allCards.forEach(c => c.classList.remove('talking'));
+    if (!isOpen) card.classList.add('talking');
+  }
+
+  // Close bubbles when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.char-card')) {
+      document.querySelectorAll('.char-card').forEach(c => c.classList.remove('talking'));
+    }
+  });
+
   function openModal() {
     const modal = document.getElementById('modal');
     modal.classList.add('open');
