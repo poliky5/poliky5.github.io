@@ -1416,17 +1416,29 @@
     }
   }
 
-  function handlePromptKey(e) {
-    if (e.key === 'Enter') {
-      const val = e.target.value.trim().toLowerCase();
-      // You can add secret codes here later!
-      if (val === '') return;
-      // For now, any input leads to next page hint
-      // This is where the ARG continues
-      alert('...\n\nYou typed: "' + val + '"\n\nRemember everything has a meaning.\nLook closer.');
-      e.target.value = '';
+function handlePromptKey(e) {
+  if (e.key === 'Enter') {
+    const val = e.target.value.trim().toLowerCase();
+
+    // === PASSWORD SYSTEM ===
+    if (val === "caine is listening") {
+      
+      // SUCCESS MESSAGE (optional)
+      alert("ACCESS GRANTED");
+
+      // REDIRECT TO NEXT FILE
+      window.location.href = "nextpage.html"; // 🔥 PUT YOUR FILE HERE
+
+    } else if (val !== "") {
+
+      // WRONG PASSWORD RESPONSE
+      alert("ACCESS DENIED\n\nHint: Look closer.");
+
     }
+
+    e.target.value = "";
   }
+}
 
   // Easter egg: Konami code also opens the modal
   let konamiSeq = [];
