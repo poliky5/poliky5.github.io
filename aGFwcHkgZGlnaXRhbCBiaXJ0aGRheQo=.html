@@ -552,7 +552,18 @@ function renderStage(idx) {
     note.textContent = s.encodeNote;
     container.appendChild(note);
   }
+  function finalStageReached() {
+    console.log("FINAL STAGE REACHED");
+  // example download
+  const text = "ACCESS GRANTED";
+  const blob = new Blob([text], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "cire.txt";
+  a.click();
 
+  URL.revokeObjectURL(a.href);
+}
   // poem lines
   s.lines.forEach((text, i) => {
     const el = document.createElement('span');
