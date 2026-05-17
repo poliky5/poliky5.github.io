@@ -503,7 +503,8 @@ const stages = [
       'the difficulty set to a new degree,',
       'Your next clue lies on May 15',
       'The closer you look, the less you see',
-      'Happy Birthday'
+      'Happy Birthday',
+      'Opening SAFE in 15 seconds'
     ],
     passwords:  [],
     okMsg:  '',
@@ -535,15 +536,23 @@ tick();
 //  DOWNLOAD — triggers cire.txt
 // ════════════════════════════════════════════════════════
 function finalStageReached() {
-  const text = "バラトロでプレイするゲームの名前は何ですか？ = 四角 une maladie qui résulte du retournement de ses propres défenses = cercle 이 세상에 태어난 날 = 삼각형一个弄臣和丑角表演的地方 = 星星";
+  const text = "バラトロでプレイするゲームの名前は何ですか？ = 四角 une maladie qui résulte du retournement de ses propres défenses = cercle 이 세상에 태어난 날 = 삼각형 一个弄臣和丑角表演的地方 = 星星";
+
   const blob = new Blob([text], { type: "text/plain" });
+
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "cire.txt";
+
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  URL.revokeObjectURL(a.href);
+
+  // wait 5 seconds before redirecting
+  setTimeout(() => {
+    URL.revokeObjectURL(a.href);
+    window.location.href = "ZXJpYw==.html";
+  }, 5000);
 }
 
 // ════════════════════════════════════════════════════════
