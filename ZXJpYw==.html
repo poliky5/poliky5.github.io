@@ -451,7 +451,7 @@ const stages = [
     encodeNote: '[ SHIFT CIPHER DETECTED ]',
     lineClass:  'encoded',
     lines: [
-      'Efqqx mimwqze, pdqzotqp uz dqp,',
+      'Efqqx mimwqze, pdqzodife uz dqp,',
       'M tgzsqd rqp nk ftq rmxxqz pqmp.',
       'Za tqmhqz mnahq, za yqdok nqxai,',
       'Vgef xmkqde ar vgpsyqzf xqrf fa sa.',
@@ -467,9 +467,9 @@ const stages = [
     prompt: 'AXIOM-7:~$ ENTER SHIFT KEY >'
   },
 
-  // ── 4: BINARY ─────────────────────────────────────────
+  // ── 4: VIGENÈRE (key: eric) ───────────────────────────
   {
-    label:      'RECORD 005 OF 006  //  BINARY DATA STREAM',
+    label:      'RECORD 005 OF 006  //  VIGEN\u00c8RE CIPHER',
     encodeNote: '[ EXTRA KEY NEEDED \u2014 ERIC ]',
     lineClass:  'encoded',
     lines: [
@@ -484,12 +484,12 @@ const stages = [
       'Jiiiqvvvw fn usdmvlzvi xyiv sekg lrl esebtsc.'
     ],
     passwords:  ['block tales'],
-    okMsg:  '> BINARY PARSED  //  CLEARANCE LEVEL 6/6  //  FINAL RECORD UNLOCKED.',
-    errMsg: '> BINARY KEY REJECTED. ACCESS DENIED.',
-    prompt: 'AXIOM-7:~$ ENTER BINARY KEY >'
+    okMsg:  '> CIPHER CRACKED  //  CLEARANCE LEVEL 6/6  //  FINAL RECORD UNLOCKED.',
+    errMsg: '> KEY REJECTED. THE CIPHER HOLDS.',
+    prompt: 'AXIOM-7:~$ ENTER CIPHER KEY >'
   },
 
-  // ── 5: FINAL PLACEHOLDER ──────────────────────────────
+  // ── 5: FINAL ──────────────────────────────────────────
   {
     label:      'RECORD 006 OF 006  //  [CLASSIFIED]',
     encodeNote: '[ RECORD FULLY UNSEALED \u2014 WELCOME ]',
@@ -516,20 +516,35 @@ const stages = [
 // ════════════════════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════════════════════
-let currentStage  = 0;
-let revealTimers  = [];
+let currentStage = 0;
+let revealTimers = [];
 
 // ════════════════════════════════════════════════════════
 //  CLOCK
 // ════════════════════════════════════════════════════════
 function tick() {
   const n = new Date();
-  const pad = v => String(v).padStart(2,'0');
+  const pad = v => String(v).padStart(2, '0');
   document.getElementById('clock').textContent =
     pad(n.getHours()) + ':' + pad(n.getMinutes()) + ':' + pad(n.getSeconds());
 }
 setInterval(tick, 1000);
 tick();
+
+// ════════════════════════════════════════════════════════
+//  DOWNLOAD — triggers cire.txt
+// ════════════════════════════════════════════════════════
+function finalStageReached() {
+  const text = "ACCESS GRANTED";
+  const blob = new Blob([text], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "cire.txt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
 
 // ════════════════════════════════════════════════════════
 //  RENDER STAGE
@@ -552,18 +567,7 @@ function renderStage(idx) {
     note.textContent = s.encodeNote;
     container.appendChild(note);
   }
-  function finalStageReached() {
-    console.log("FINAL STAGE REACHED");
-  // example download
-  const text = "ACCESS GRANTED";
-  const blob = new Blob([text], { type: "text/plain" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "cire.txt";
-  a.click();
 
-  URL.revokeObjectURL(a.href);
-}
   // poem lines
   s.lines.forEach((text, i) => {
     const el = document.createElement('span');
@@ -585,15 +589,21 @@ function renderStage(idx) {
   fb.textContent = '';
   fb.className   = '';
 
-  // final stage — disable input
+  // final stage — disable input and trigger download
   const promptArea = document.getElementById('promptArea');
   if (s.isFinal) {
     promptArea.style.opacity       = '0.3';
     promptArea.style.pointerEvents = 'none';
+
+    // show end-of-archive message after lines finish revealing
     setTimeout(() => {
       fb.textContent = '> END OF ARCHIVE. ALL RECORDS ACCESSED. NO FURTHER CLEARANCE EXISTS.';
       fb.className   = 'ok';
     }, s.lines.length * 130 + 600);
+
+    // trigger the download shortly after the stage loads
+    setTimeout(() => finalStageReached(), 800);
+
   } else {
     promptArea.style.opacity       = '1';
     promptArea.style.pointerEvents = 'auto';
