@@ -555,39 +555,11 @@ const VAULT_CODE = '190240';   // ← CHANGE THIS to your secret code
 // Each entry: { name: 'filename.ext', content: 'text content' }
 // Add as many as you like. For binary/image files you'd need base64,
 // but text/html files work great here.
+// URLs pointing directly to your repo's raw files
 const VAULT_FILES = [
-  {
-    name: 'README.txt',
-    content:
-`VAULT CONTENTS — CLASSIFIED
-════════════════════════════
-
-[ PLACEHOLDER — ADD YOUR FILES HERE ]
-
-This archive was retrieved from VAULT UNIT V-07.
-Access timestamp: ${new Date().toISOString()}
-
-Replace the entries in the VAULT_FILES array in safe.html
-with your actual ARG files and content.`
-  },
-  {
-    name: 'note_001.txt',
-    content:
-`[ PLACEHOLDER FILE 1 ]
-
-You found it.
-
-— replace this with your actual note —`
-  },
-  {
-    name: 'note_002.txt',
-    content:
-`[ PLACEHOLDER FILE 2 ]
-
-Look closer.
-
-— replace this with your actual note —`
-  }
+  'https://raw.githubusercontent.com/YOURUSER/YOURREPO/main/morse.wav',
+  'https://raw.githubusercontent.com/YOURUSER/YOURREPO/main/image.png',
+  'https://raw.githubusercontent.com/YOURUSER/YOURREPO/main/eric.jldr2',
 ];
 
 const ZIP_FILENAME = 'vault_contents.zip';
@@ -762,40 +734,48 @@ async function triggerDownload() {
   const btn    = document.getElementById('dlBtn');
   const status = document.getElementById('dl-status');
 
-  btn.textContent = '⏳ COMPILING...';
-  btn.disabled    = true;
-  status.textContent = 'BUILDING ARCHIVE...';
+  btn.textContent    = '⏳ FETCHING...';
+  btn.disabled       = true;
+  status.textContent = 'RETRIEVING FILES FROM SERVER...';
 
   try {
     const zip = new JSZip();
     const folder = zip.folder('vault_contents');
 
-    VAULT_FILES.forEach(f => folder.file(f.name, f.content));
+    // fetch every file as raw binary and add to zip
+    for (let i = 0; i < VAULT_FILES.length; i++) {
+      const url      = VAULT_FILES[i];
+      const filename = url.split('/').pop();          // grabs the filename from the URL
+      status.textContent = `FETCHING ${filename}... (${i + 1}/${VAULT_FILES.length})`;
+
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to fetch ${filename}: ${response.status}`);
+      const blob = await response.blob();
+      folder.file(filename, blob);                    // blob works for ANY file type
+    }
 
     status.textContent = 'COMPRESSING...';
     const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
 
-    const url  = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href     = url;
-    link.download = ZIP_FILENAME;
+    const link     = document.createElement('a');
+    link.href      = URL.createObjectURL(blob);
+    link.download  = ZIP_FILENAME;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(link.href);
 
-    btn.textContent = '✓ DOWNLOADED';
-    status.textContent = 'TRANSFER COMPLETE — ' + VAULT_FILES.length + ' FILE(S) DELIVERED';
+    btn.textContent    = '✓ DOWNLOADED';
+    status.textContent = `TRANSFER COMPLETE — ${VAULT_FILES.length} FILE(S) DELIVERED`;
     document.getElementById('attemptLog').innerHTML +=
-      '<span class="log-ok">// CONTENTS EXTRACTED — ' + VAULT_FILES.length + ' FILE(S) TRANSFERRED</span><br>';
+      `<span class="log-ok">// CONTENTS EXTRACTED — ${VAULT_FILES.length} FILE(S) TRANSFERRED</span><br>`;
 
   } catch(err) {
-    btn.textContent  = 'ERROR — RETRY';
-    btn.disabled     = false;
-    status.textContent = 'ARCHIVE FAILED: ' + err.message;
+    btn.textContent    = 'ERROR — RETRY';
+    btn.disabled       = false;
+    status.textContent = 'TRANSFER FAILED: ' + err.message;
   }
 }
-
 // focus on load
 window.addEventListener('load', () => {
   focusInput();
